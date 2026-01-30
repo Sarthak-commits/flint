@@ -169,7 +169,6 @@ import parseIntRadixes from "./rules/parseIntRadixes.ts";
 import propertyAccessNotation from "./rules/propertyAccessNotation.ts";
 import recursionOnlyArguments from "./rules/recursionOnlyArguments.ts";
 import redundantTypeConstituents from "./rules/redundantTypeConstituents.ts";
-import restrictedImports from "./rules/restrictedImports.ts";
 import regexAllGlobalFlags from "./rules/regexAllGlobalFlags.ts";
 import regexAmbiguousInvalidity from "./rules/regexAmbiguousInvalidity.ts";
 import regexCharacterClasses from "./rules/regexCharacterClasses.ts";
@@ -226,6 +225,7 @@ import regexUnnecessaryCharacterClasses from "./rules/regexUnnecessaryCharacterC
 import regexUnnecessaryCharacterRanges from "./rules/regexUnnecessaryCharacterRanges.ts";
 import regexUnnecessaryDisjunctions from "./rules/regexUnnecessaryDisjunctions.ts";
 import regexUnnecessaryDollarReplacements from "./rules/regexUnnecessaryDollarReplacements.ts";
+import restrictedImports from "./rules/restrictedImports.ts";
 import returnAssignments from "./rules/returnAssignments.ts";
 import selfAssignments from "./rules/selfAssignments.ts";
 import sequences from "./rules/sequences.ts";
@@ -421,7 +421,6 @@ export const ts = createPlugin({
 		recursionOnlyArguments,
 		arrayReduceTypeArguments,
 		redundantTypeConstituents,
-		restrictedImports,
 		regexAllGlobalFlags,
 		regexAmbiguousInvalidity,
 		regexCharacterClasses,
@@ -478,6 +477,7 @@ export const ts = createPlugin({
 		regexUnnecessaryCharacterRanges,
 		regexUnnecessaryDisjunctions,
 		regexUnnecessaryDollarReplacements,
+		restrictedImports,
 		returnAssignments,
 		selfAssignments,
 		sequences,
