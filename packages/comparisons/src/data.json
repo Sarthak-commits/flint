@@ -16087,7 +16087,8 @@
 		],
 		"flint": {
 			"name": "restrictedImports",
-			"plugin": "ts"
+			"plugin": "ts",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
