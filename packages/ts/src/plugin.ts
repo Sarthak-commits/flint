@@ -209,6 +209,7 @@ import regexNonStandardFlags from "./rules/regexNonStandardFlags.ts";
 import regexObscureRanges from "./rules/regexObscureRanges.ts";
 import regexOctalEscapes from "./rules/regexOctalEscapes.ts";
 import regexPlusQuantifiers from "./rules/regexPlusQuantifiers.ts";
+import regexPredefinedAssertions from "./rules/regexPredefinedAssertions.ts";
 import regexQuestionQuantifiers from "./rules/regexQuestionQuantifiers.ts";
 import regexRepeatQuantifiers from "./rules/regexRepeatQuantifiers.ts";
 import regexResultArrayGroups from "./rules/regexResultArrayGroups.ts";
@@ -221,17 +222,51 @@ import regexTestMethods from "./rules/regexTestMethods.ts";
 import regexUnicodeCodepointEscapes from "./rules/regexUnicodeCodepointEscapes.ts";
 import regexUnicodeEscapes from "./rules/regexUnicodeEscapes.ts";
 import regexUnicodeFlag from "./rules/regexUnicodeFlag.ts";
+import regexUnicodeProperties from "./rules/regexUnicodeProperties.ts";
+import regexUnnecessaryAssertions from "./rules/regexUnnecessaryAssertions.ts";
+import regexUnnecessaryBackreferences from "./rules/regexUnnecessaryBackreferences.ts";
 import regexUnnecessaryCharacterClasses from "./rules/regexUnnecessaryCharacterClasses.ts";
 import regexUnnecessaryCharacterRanges from "./rules/regexUnnecessaryCharacterRanges.ts";
 import regexUnnecessaryDisjunctions from "./rules/regexUnnecessaryDisjunctions.ts";
 import regexUnnecessaryDollarReplacements from "./rules/regexUnnecessaryDollarReplacements.ts";
+import regexUnnecessaryEscapes from "./rules/regexUnnecessaryEscapes.ts";
+import regexUnnecessaryLookaroundAssertions from "./rules/regexUnnecessaryLookaroundAssertions.ts";
+import regexUnnecessaryNestedAssertions from "./rules/regexUnnecessaryNestedAssertions.ts";
+import regexUnnecessaryNonCapturingGroups from "./rules/regexUnnecessaryNonCapturingGroups.ts";
+import regexUnnecessaryNumericQuantifiers from "./rules/regexUnnecessaryNumericQuantifiers.ts";
+import regexUnnecessaryOptionalAssertions from "./rules/regexUnnecessaryOptionalAssertions.ts";
+import regexUnusedCapturingGroups from "./rules/regexUnusedCapturingGroups.ts";
+import regexUnusedFlags from "./rules/regexUnusedFlags.ts";
+import regexUnusedLazyQuantifiers from "./rules/regexUnusedLazyQuantifiers.ts";
+import regexUnusedQuantifiers from "./rules/regexUnusedQuantifiers.ts";
+import regexValidity from "./rules/regexValidity.ts";
+import regexWordMatchers from "./rules/regexWordMatchers.ts";
 import restrictedImports from "./rules/restrictedImports.ts";
 import returnAssignments from "./rules/returnAssignments.ts";
 import selfAssignments from "./rules/selfAssignments.ts";
 import sequences from "./rules/sequences.ts";
+import setSizeLengthChecks from "./rules/setSizeLengthChecks.ts";
+import setterReturns from "./rules/setterReturns.ts";
 import shadowedRestrictedNames from "./rules/shadowedRestrictedNames.ts";
+import singleVariableDeclarations from "./rules/singleVariableDeclarations.ts";
+import sizeComparisonOperators from "./rules/sizeComparisonOperators.ts";
 import sparseArrays from "./rules/sparseArrays.ts";
+import staticMemberOnlyClasses from "./rules/staticMemberOnlyClasses.ts";
+import stringCaseMismatches from "./rules/stringCaseMismatches.ts";
+import stringCodePoints from "./rules/stringCodePoints.ts";
+import stringSliceMethods from "./rules/stringSliceMethods.ts";
+import stringStartsEndsWith from "./rules/stringStartsEndsWith.ts";
+import structuredCloneMethods from "./rules/structuredCloneMethods.ts";
 import symbolDescriptions from "./rules/symbolDescriptions.ts";
+import thisAliases from "./rules/thisAliases.ts";
+import thisBeforeSuper from "./rules/thisBeforeSuper.ts";
+import throwErrors from "./rules/throwErrors.ts";
+import topLevelAwaits from "./rules/topLevelAwaits.ts";
+import tripleSlashReferences from "./rules/tripleSlashReferences.ts";
+import tripleSlashReferenceValidity from "./rules/tripleSlashReferenceValidity.ts";
+import tsComments from "./rules/tsComments.ts";
+import tslintComments from "./rules/tslintComments.ts";
+import typeAssertionStyles from "./rules/typeAssertionStyles.ts";
 import typeofComparisons from "./rules/typeofComparisons.ts";
 import unassignedVariables from "./rules/unassignedVariables.ts";
 import undefinedVariables from "./rules/undefinedVariables.ts";
@@ -461,6 +496,7 @@ export const ts = createPlugin({
 		regexObscureRanges,
 		regexOctalEscapes,
 		regexPlusQuantifiers,
+		regexPredefinedAssertions,
 		regexQuestionQuantifiers,
 		regexRepeatQuantifiers,
 		regexResultArrayGroups,
@@ -473,17 +509,51 @@ export const ts = createPlugin({
 		regexUnicodeCodepointEscapes,
 		regexUnicodeEscapes,
 		regexUnicodeFlag,
+		regexUnicodeProperties,
+		regexUnnecessaryAssertions,
+		regexUnnecessaryBackreferences,
 		regexUnnecessaryCharacterClasses,
 		regexUnnecessaryCharacterRanges,
 		regexUnnecessaryDisjunctions,
 		regexUnnecessaryDollarReplacements,
-		restrictedImports,
+		regexUnnecessaryEscapes,
+		regexUnnecessaryLookaroundAssertions,
+		regexUnnecessaryNestedAssertions,
+		regexUnnecessaryNonCapturingGroups,
+		regexUnnecessaryNumericQuantifiers,
+		regexUnnecessaryOptionalAssertions,
+		regexUnusedCapturingGroups,
+		regexUnusedFlags,
+		regexUnusedLazyQuantifiers,
+		regexUnusedQuantifiers,
+		regexValidity,
+		regexWordMatchers,
+    restrictedImports,
 		returnAssignments,
 		selfAssignments,
 		sequences,
+		setSizeLengthChecks,
+		setterReturns,
 		shadowedRestrictedNames,
+		singleVariableDeclarations,
+		sizeComparisonOperators,
 		sparseArrays,
+		staticMemberOnlyClasses,
+		stringCaseMismatches,
+		stringCodePoints,
+		stringSliceMethods,
+		stringStartsEndsWith,
+		structuredCloneMethods,
 		symbolDescriptions,
+		thisAliases,
+		thisBeforeSuper,
+		throwErrors,
+		topLevelAwaits,
+		tripleSlashReferences,
+		tripleSlashReferenceValidity,
+		tsComments,
+		tslintComments,
+		typeAssertionStyles,
 		typeofComparisons,
 		unassignedVariables,
 		undefinedVariables,

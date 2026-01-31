@@ -8023,8 +8023,10 @@
 			"name": "awaitInsidePromiseMethods",
 			"plugin": "ts",
 			"preset": "logical",
+			"status": "skipped",
 			"strictness": "strict"
 		},
+		"notes": "Superseded by awaitThenable.",
 		"oxlint": [
 			{
 				"name": "unicorn/no-await-in-promise-methods",
@@ -14319,8 +14321,10 @@
 		"flint": {
 			"name": "promiseExecutorReturns",
 			"plugin": "ts",
-			"preset": "logical"
-		}
+			"preset": "logical",
+			"status": "skipped"
+		},
+		"notes": "Superseded by awaitThenable."
 	},
 	{
 		"eslint": [
@@ -15386,7 +15390,8 @@
 		"flint": {
 			"name": "regexPredefinedAssertions",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		}
 	},
 	{
@@ -15609,7 +15614,8 @@
 		"flint": {
 			"name": "regexUnicodeProperties",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		}
 	},
 	{
@@ -15635,7 +15641,8 @@
 		"flint": {
 			"name": "regexUnnecessaryAssertions",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		}
 	},
 	{
@@ -15658,7 +15665,8 @@
 		"flint": {
 			"name": "regexUnnecessaryBackreferences",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -15733,7 +15741,8 @@
 		"flint": {
 			"name": "regexUnnecessaryEscapes",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -15752,7 +15761,8 @@
 		"flint": {
 			"name": "regexUnnecessaryLookaroundAssertions",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		}
 	},
 	{
@@ -15765,7 +15775,8 @@
 		"flint": {
 			"name": "regexUnnecessaryNestedAssertions",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		}
 	},
 	{
@@ -15792,6 +15803,7 @@
 			"name": "regexUnnecessaryNonCapturingGroups",
 			"plugin": "ts",
 			"preset": "stylistic",
+			"status": "implemented",
 			"strictness": "strict"
 		}
 	},
@@ -15805,7 +15817,8 @@
 		"flint": {
 			"name": "regexUnnecessaryNumericQuantifiers",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		}
 	},
 	{
@@ -15818,7 +15831,8 @@
 		"flint": {
 			"name": "regexUnnecessaryOptionalAssertions",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		}
 	},
 	{
@@ -15857,7 +15871,8 @@
 		"flint": {
 			"name": "regexUnusedCapturingGroups",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		}
 	},
 	{
@@ -15870,7 +15885,8 @@
 		"flint": {
 			"name": "regexUnusedFlags",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		}
 	},
 	{
@@ -15896,7 +15912,8 @@
 		"flint": {
 			"name": "regexUnusedQuantifiers",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		}
 	},
 	{
@@ -15919,7 +15936,8 @@
 		"flint": {
 			"name": "regexValidity",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -15939,6 +15957,7 @@
 			"name": "regexWordMatchers",
 			"plugin": "ts",
 			"preset": "stylistic",
+			"status": "implemented",
 			"strictness": "strict"
 		}
 	},
@@ -16339,6 +16358,7 @@
 			"name": "setSizeLengthChecks",
 			"plugin": "ts",
 			"preset": "stylistic",
+			"status": "implemented",
 			"strictness": "strict"
 		},
 		"oxlint": [
@@ -16370,7 +16390,8 @@
 		"flint": {
 			"name": "setterReturns",
 			"plugin": "ts",
-			"preset": "untyped"
+			"preset": "untyped",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -16469,7 +16490,8 @@
 		"flint": {
 			"name": "singleVariableDeclarations",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		}
 	},
 	{
@@ -16489,6 +16511,7 @@
 			"name": "sizeComparisonOperators",
 			"plugin": "ts",
 			"preset": "stylistic",
+			"status": "implemented",
 			"strictness": "strict"
 		},
 		"oxlint": [
@@ -16560,6 +16583,7 @@
 			"name": "staticMemberOnlyClasses",
 			"plugin": "ts",
 			"preset": "stylistic",
+			"status": "implemented",
 			"strictness": "strict"
 		},
 		"oxlint": [
@@ -16605,7 +16629,8 @@
 		"flint": {
 			"name": "stringCaseMismatches",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		}
 	},
 	{
@@ -16619,6 +16644,7 @@
 			"name": "stringCodePoints",
 			"plugin": "ts",
 			"preset": "logical",
+			"status": "implemented",
 			"strictness": "strict"
 		},
 		"oxlint": [
@@ -16721,6 +16747,7 @@
 			"name": "stringSliceMethods",
 			"plugin": "ts",
 			"preset": "stylistic",
+			"status": "implemented",
 			"strictness": "strict"
 		},
 		"oxlint": [
@@ -16740,7 +16767,8 @@
 		"flint": {
 			"name": "stringStartsEndsWith",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -16803,9 +16831,9 @@
 		"flint": {
 			"name": "stringTrimMethods",
 			"plugin": "ts",
-			"preset": "stylistic",
-			"strictness": "strict"
+			"status": "skipped"
 		},
+		"notes": "Superseded by deprecated.",
 		"oxlint": [
 			{
 				"name": "unicorn/prefer-string-trim-start-end",
@@ -16824,6 +16852,7 @@
 			"name": "structuredCloneMethods",
 			"plugin": "ts",
 			"preset": "stylistic",
+			"status": "implemented",
 			"strictness": "strict"
 		},
 		"oxlint": [
@@ -17059,7 +17088,8 @@
 		"flint": {
 			"name": "thisBeforeSuper",
 			"plugin": "ts",
-			"preset": "untyped"
+			"preset": "untyped",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -17111,7 +17141,8 @@
 		"flint": {
 			"name": "throwErrors",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -17158,6 +17189,7 @@
 			"name": "topLevelAwaits",
 			"plugin": "ts",
 			"preset": "stylistic",
+			"status": "implemented",
 			"strictness": "strict"
 		}
 	},
@@ -17177,7 +17209,8 @@
 		"flint": {
 			"name": "tripleSlashReferences",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -17196,7 +17229,8 @@
 		"flint": {
 			"name": "tripleSlashReferenceValidity",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		}
 	},
 	{
@@ -17225,7 +17259,8 @@
 		"flint": {
 			"name": "tsComments",
 			"plugin": "ts",
-			"preset": "logical"
+			"preset": "logical",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -17248,7 +17283,8 @@
 		"flint": {
 			"name": "tslintComments",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		},
 		"oxlint": [
 			{
@@ -17278,9 +17314,10 @@
 			}
 		],
 		"flint": {
-			"name": "typeAssertions",
+			"name": "typeAssertionStyles",
 			"plugin": "ts",
-			"preset": "stylistic"
+			"preset": "stylistic",
+			"status": "implemented"
 		}
 	},
 	{
