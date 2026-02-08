@@ -547,7 +547,7 @@ export const ts = createPlugin({
 		regexWordMatchers,
 		regexZeroQuantifiers,
 		responseJsonMethods,
-    restrictedImports,
+		restrictedImports,
 		returnAssignments,
 		returnThisTypes,
 		selfAssignments,
