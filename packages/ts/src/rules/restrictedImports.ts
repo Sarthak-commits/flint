@@ -1,39 +1,14 @@
-import { normalizePath } from "@flint.fyi/core";
 import {
-	declarationIncludesGlobal,
 	getTSNodeRange,
 	typescriptLanguage,
 } from "@flint.fyi/typescript-language";
-import path from "node:path";
 import ts, { SyntaxKind } from "typescript";
 import { z } from "zod/v4";
 
+import { getSpecifierNames } from "../type-utils/getSpecifierNames.ts";
+import { matchesSpecifier } from "../type-utils/matchesSpecifier.ts";
+import { typeOrValueSpecifierSchema } from "../type-utils/schemas.ts";
 import { ruleCreator } from "./ruleCreator.ts";
-
-const fileSpecifierSchema = z.object({
-	from: z.literal("file"),
-	name: z.union([z.string(), z.array(z.string())]).optional(),
-	path: z.string().optional(),
-});
-
-const libSpecifierSchema = z.object({
-	from: z.literal("lib"),
-	name: z.union([z.string(), z.array(z.string())]).optional(),
-});
-
-const packageSpecifierSchema = z.object({
-	from: z.literal("package"),
-	name: z.union([z.string(), z.array(z.string())]).optional(),
-	package: z.string(),
-});
-
-const typeOrValueSpecifierSchema = z.union([
-	fileSpecifierSchema,
-	libSpecifierSchema,
-	packageSpecifierSchema,
-]);
-
-type TypeOrValueSpecifier = z.infer<typeof typeOrValueSpecifierSchema>;
 
 const restrictionSchema = z.object({
 	allowTypeImports: z
@@ -51,194 +26,11 @@ const restrictionSchema = z.object({
 
 type Restriction = z.infer<typeof restrictionSchema>;
 
-type WildcardMessageId =
-	| "moduleRestricted"
-	| "moduleRestrictedWithMessage"
-	| "namespaceRestricted"
-	| "namespaceRestrictedWithMessage";
-
-function checkWildcardRestrictions(
-	restrictions: Restriction[],
-	moduleDeclarations: ts.Declaration[],
-	source: string,
-	topLevelTypeOnly: boolean,
-	range: ReturnType<typeof getTSNodeRange>,
-	program: ts.Program,
-	report: (arg: {
-		data: Record<string, string>;
-		message: WildcardMessageId;
-		range: ReturnType<typeof getTSNodeRange>;
-	}) => void,
-) {
-	for (const restriction of restrictions) {
-		if (restriction.allowTypeImports && topLevelTypeOnly) {
-			continue;
-		}
-
-		const names = getSpecifierNames(restriction.specifier);
-		if (names !== undefined) {
-			if (
-				matchesSpecifier(
-					undefined,
-					moduleDeclarations,
-					{
-						...restriction.specifier,
-						name: undefined,
-					} as TypeOrValueSpecifier,
-					program,
-				)
-			) {
-				report({
-					data: {
-						customMessage: restriction.message ?? "",
-						restrictedNames: names.join("', '"),
-						source,
-					},
-					message: restriction.message
-						? "namespaceRestrictedWithMessage"
-						: "namespaceRestricted",
-					range,
-				});
-			}
-		} else if (
-			matchesSpecifier(
-				undefined,
-				moduleDeclarations,
-				restriction.specifier,
-				program,
-			)
-		) {
-			report({
-				data: {
-					customMessage: restriction.message ?? "",
-					source,
-				},
-				message: restriction.message
-					? "moduleRestrictedWithMessage"
-					: "moduleRestricted",
-				range,
-			});
-		}
-	}
-}
-
 // Location-checking helpers follow the same approach as @typescript-eslint/type-utils.
 // We can't use typeMatchesSpecifier directly because it operates on ts.Type objects
 // and checks the type's symbol name, which doesn't match variable names for value
 // imports with primitive/structural types (e.g., `const x = 42` has type "number",
 // not "x").
-
-function getSpecifierNames(specifier: TypeOrValueSpecifier) {
-	if (specifier.name === undefined) {
-		return undefined;
-	}
-
-	return Array.isArray(specifier.name) ? specifier.name : [specifier.name];
-}
-
-function isDeclaredInModuleBlock(
-	declaration: ts.Declaration,
-	packageName: string,
-) {
-	let current: ts.Node = declaration;
-	while (!ts.isSourceFile(current)) {
-		if (
-			ts.isModuleDeclaration(current) &&
-			!(current.flags & ts.NodeFlags.Namespace) &&
-			ts.isStringLiteral(current.name) &&
-			current.name.text === packageName
-		) {
-			return true;
-		}
-		current = current.parent;
-	}
-	return false;
-}
-
-function isFromFile(
-	sourceFile: ts.SourceFile,
-	specifiedPath: string | undefined,
-	program: ts.Program,
-) {
-	if (specifiedPath === undefined) {
-		return (
-			!sourceFile.fileName.includes("/node_modules/") &&
-			!program.isSourceFileDefaultLibrary(sourceFile)
-		);
-	}
-
-	const caseSensitive = ts.sys.useCaseSensitiveFileNames;
-	return (
-		normalizePath(sourceFile.fileName, caseSensitive) ===
-		normalizePath(
-			path.resolve(program.getCurrentDirectory(), specifiedPath),
-			caseSensitive,
-		)
-	);
-}
-
-function isFromPackage(
-	declaration: ts.Declaration,
-	packageName: string,
-	program: ts.Program,
-) {
-	if (isDeclaredInModuleBlock(declaration, packageName)) {
-		return true;
-	}
-
-	const sourceFile = declaration.getSourceFile();
-
-	if (!program.isSourceFileFromExternalLibrary(sourceFile)) {
-		return false;
-	}
-
-	const typesPackageName = packageName.replace(/^@([^/]+)\//, "$1__");
-
-	// Use the program's sourceFileToPackageName mapping when available,
-	// following the same approach as @typescript-eslint/type-utils.
-	const pkgName = (
-		program as unknown as {
-			sourceFileToPackageName?: ReadonlyMap<string, string>;
-		}
-	).sourceFileToPackageName?.get(
-		(sourceFile as unknown as { path: string }).path,
-	);
-
-	if (pkgName != null) {
-		return pkgName === packageName || pkgName === typesPackageName;
-	}
-
-	return (
-		sourceFile.fileName.includes(`/node_modules/${packageName}/`) ||
-		sourceFile.fileName.includes(`/node_modules/@types/${typesPackageName}/`)
-	);
-}
-
-function matchesSpecifier(
-	importedName: string | undefined,
-	declarations: ts.Declaration[],
-	specifier: TypeOrValueSpecifier,
-	program: ts.Program,
-) {
-	const names = getSpecifierNames(specifier);
-	if (
-		names !== undefined &&
-		(importedName === undefined || !names.includes(importedName))
-	) {
-		return false;
-	}
-
-	return declarations.some((declaration) => {
-		switch (specifier.from) {
-			case "file":
-				return isFromFile(declaration.getSourceFile(), specifier.path, program);
-			case "lib":
-				return declarationIncludesGlobal(declaration);
-			case "package":
-				return isFromPackage(declaration, specifier.package, program);
-		}
-	});
-}
 
 function resolveModuleDeclarations(
 	moduleSpecifier: ts.Expression,
@@ -333,6 +125,66 @@ export default ruleCreator.createRule(typescriptLanguage, {
 			),
 	},
 	setup(context) {
+		function checkWildcardRestrictions(
+			restrictions: Restriction[],
+			moduleDeclarations: ts.Declaration[],
+			source: string,
+			topLevelTypeOnly: boolean,
+			range: ReturnType<typeof getTSNodeRange>,
+			program: ts.Program,
+		) {
+			for (const restriction of restrictions) {
+				if (restriction.allowTypeImports && topLevelTypeOnly) {
+					continue;
+				}
+
+				const names = getSpecifierNames(restriction.specifier);
+				if (names !== undefined) {
+					if (
+						matchesSpecifier(
+							undefined,
+							moduleDeclarations,
+							{
+								...restriction.specifier,
+								name: undefined,
+							},
+							program,
+						)
+					) {
+						context.report({
+							data: {
+								customMessage: restriction.message ?? "",
+								restrictedNames: names.join("', '"),
+								source,
+							},
+							message: restriction.message
+								? "namespaceRestrictedWithMessage"
+								: "namespaceRestricted",
+							range,
+						});
+					}
+				} else if (
+					matchesSpecifier(
+						undefined,
+						moduleDeclarations,
+						restriction.specifier,
+						program,
+					)
+				) {
+					context.report({
+						data: {
+							customMessage: restriction.message ?? "",
+							source,
+						},
+						message: restriction.message
+							? "moduleRestrictedWithMessage"
+							: "moduleRestricted",
+						range,
+					});
+				}
+			}
+		}
+
 		return {
 			visitors: {
 				ExportDeclaration: (
@@ -346,10 +198,7 @@ export default ruleCreator.createRule(typescriptLanguage, {
 						return;
 					}
 
-					const { restrictions } = options as {
-						restrictions: Restriction[];
-					};
-					if (!restrictions.length) {
+					if (!options.restrictions.length) {
 						return;
 					}
 
@@ -371,7 +220,7 @@ export default ruleCreator.createRule(typescriptLanguage, {
 								continue;
 							}
 
-							for (const restriction of restrictions) {
+							for (const restriction of options.restrictions) {
 								if (restriction.allowTypeImports && isTypeOnly) {
 									continue;
 								}
@@ -409,13 +258,12 @@ export default ruleCreator.createRule(typescriptLanguage, {
 						}
 
 						checkWildcardRestrictions(
-							restrictions,
+							options.restrictions,
 							moduleDeclarations,
 							source,
 							topLevelTypeOnly,
 							range,
 							program,
-							context.report,
 						);
 					}
 				},
@@ -427,9 +275,7 @@ export default ruleCreator.createRule(typescriptLanguage, {
 						return;
 					}
 
-					const { restrictions } = options as {
-						restrictions: Restriction[];
-					};
+					const { restrictions } = options;
 					if (!restrictions.length) {
 						return;
 					}
@@ -448,10 +294,6 @@ export default ruleCreator.createRule(typescriptLanguage, {
 						}
 
 						for (const restriction of restrictions) {
-							if (getSpecifierNames(restriction.specifier)) {
-								continue;
-							}
-
 							if (
 								matchesSpecifier(
 									undefined,
@@ -582,7 +424,6 @@ export default ruleCreator.createRule(typescriptLanguage, {
 						topLevelTypeOnly,
 						range,
 						program,
-						context.report,
 					);
 				},
 			},
