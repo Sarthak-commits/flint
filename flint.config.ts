@@ -2,6 +2,7 @@ import { node } from "@flint.fyi/node";
 import { performance } from "@flint.fyi/performance";
 import { flint } from "@flint.fyi/plugin-flint";
 import { spelling } from "@flint.fyi/spelling";
+import { vitest } from "@flint.fyi/vitest";
 import { defineConfig, globs, json, md, ts, yaml } from "flint";
 
 export default defineConfig({
@@ -23,6 +24,7 @@ export default defineConfig({
 			rules: [
 				flint.presets.logical,
 				flint.presets.stylistic,
+				flint.presets.stylisticStrict,
 				node.presets.logicalStrict,
 				node.presets.stylisticStrict,
 				performance.presets.logical,
@@ -34,6 +36,10 @@ export default defineConfig({
 					objectShorthand: false,
 				}),
 			],
+		},
+		{
+			files: vitest.files.all,
+			rules: [vitest.presets.logicalStrict, vitest.presets.stylisticStrict],
 		},
 		{
 			files: {

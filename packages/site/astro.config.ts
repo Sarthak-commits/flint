@@ -97,7 +97,6 @@ export default defineConfig({
 										{ label: "JSX", link: "rules/jsx" },
 										{ label: "Node", link: "rules/node" },
 										{ label: "Performance", link: "rules/performance" },
-										{ label: "Sorting", link: "rules/sorting" },
 										{ label: "Spelling", link: "rules/spelling" },
 									],
 									label: "Focused Plugins",
@@ -156,12 +155,16 @@ export default defineConfig({
 	},
 	site: "https://flint.fyi",
 	vite: {
+		define: {
+			// @astrojs/ts-plugin is "type":"commonjs"
+			// __filename is not defined in ES module scope
+			//   Stack trace:
+			//     at D (file:///home/runner/work/flint/flint/packages/site/dist/chunks/getRuleForPlugin_C5J7xdaO.mjs:68627:687)
+			//     at requireAstro2tsx (file:///home/runner/work/flint/flint/packages/site/dist/chunks/getRuleForPlugin_C5J7xdaO.mjs:69379:17)
+			__filename: "import.meta.filename",
+		},
 		resolve: {
 			conditions: ["node", "import", "default", "browser"],
-		},
-		ssr: {
-			// https://github.com/withastro/astro/issues/14117
-			noExternal: ["zod"],
 		},
 	},
 });

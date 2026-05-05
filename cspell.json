@@ -57,12 +57,17 @@
 		"extlang",
 		"Fallthroughs",
 		"falsiness",
+		"fdescribe",
 		"Focusables",
+		"frontmatter",
 		"generalcategory",
+		"gypfile",
 		"idlist",
 		"impp",
 		"joshuakgoldberg",
+		"jridgewell",
 		"kirkwaiblinger",
+		"libc",
 		"lishaduck",
 		"lookaheads",
 		"lookarounds",
@@ -100,6 +105,8 @@
 		"Waiblinger",
 		"webauthn",
 		"WHATWG",
-		"xobi"
+		"xdescribe",
+		"xobi",
+		"xtest"
 	]
 }

@@ -23,7 +23,7 @@ const importAlphabet = Alphabet.generateRecommendedAlphabet()
 // https://typescript-eslint.io/troubleshooting/typed-linting/performance#importextensions-enforcing-extensions-are-not-used
 function banJsImportExtension() {
 	const message = `Unexpected use of .js file extension (.js) in import; please use .ts`;
-	const literalAttributeMatcher = `Literal[value=/\\.js$/]`;
+	const literalAttributeMatcher = `Literal[value=/\\..+\\.js$/]`;
 	return [
 		{
 			message,
@@ -182,6 +182,28 @@ export default defineConfig(
 					message:
 						"Use Standard Schema for abstractions or Zod Core for parsing.",
 					name: "zod/v4",
+				},
+			],
+		},
+	},
+	{
+		files: ["packages/site/**/*.ts"],
+		rules: {
+			"@typescript-eslint/no-restricted-imports": [
+				"error",
+				{
+					paths: [
+						{
+							message: "Use astro/zod instead of the main Zod package.",
+							name: "zod",
+						},
+					],
+					patterns: [
+						{
+							group: ["zod/*"],
+							message: "Use astro/zod instead of the main Zod package.",
+						},
+					],
 				},
 			],
 		},
