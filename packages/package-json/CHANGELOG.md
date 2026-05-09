@@ -1,5 +1,15 @@
 # @flint.fyi/package-json
 
+## 0.18.0
+
+### Minor Changes
+
+- 432d186: Add the `package-json/dependencyUniqueness` rule.
+
+### Patch Changes
+
+- 9096ae8: Add the `package-json/attribution` rule.
+
 ## 0.17.1
 
 ### Patch Changes
